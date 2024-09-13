@@ -1,4 +1,4 @@
-unfilterable_items = [
+UNFILTERABLE_ITEMS = [
     "diamond_armor",
     "llama",
     "mule",
@@ -19,7 +19,7 @@ unfilterable_items = [
     "music_disc",
     "diamond_tool",
 ]
-armor_trims = [
+ARMOUR_TRIMS = [
     "ward",
     "spire",
     "coast",
@@ -39,7 +39,7 @@ armor_trims = [
     "flow",
     "bolt",
 ]
-pottery_sherds = [
+POTTERY_SHERDS = [
     "angler",
     "archer",
     "arms_up",
@@ -64,7 +64,7 @@ pottery_sherds = [
     "guster",
     "scrape",
 ]
-blocksendswiths = [
+BLOCKS_ENDS_WITH_S = [
     "acacia_leaves",
     "acacia_planks",
     "acacia_stairs",
@@ -219,8 +219,8 @@ blocksendswiths = [
     "white_stained_glass",
     "yellow_stained_glass",
 ]
-froglights = ["Ochre", "Pearlescent", "Verdant"]
-flowers = [
+FROGLIGHTS = ["Ochre", "Pearlescent", "Verdant"]
+FLOWERS = [
     "dandelion",
     "poppy",
     "blue_orchid",
@@ -237,4 +237,40 @@ flowers = [
     "lilac",
     "rose_bush",
     "peony",
+]
+WOOL = [
+    "white_wool",
+    "light_gray_wool",
+    "gray_wool",
+    "black_wool",
+    "brown_wool",
+    "red_wool",
+    "orange_wool",
+    "yellow_wool",
+    "lime_wool",
+    "green_wool",
+    "cyan_wool",
+    "light_blue_wool",
+    "blue_wool",
+    "purple_wool",
+    "magenta_wool",
+    "pink_wool",
+]
+DYES = [
+    "white_dye",
+    "light_gray_dye",
+    "gray_dye",
+    "black_dye",
+    "brown_dye",
+    "red_dye",
+    "orange_dye",
+    "yellow_dye",
+    "lime_dye",
+    "green_dye",
+    "cyan_dye",
+    "light_blue_dye",
+    "blue_dye",
+    "purple_dye",
+    "magenta_dye",
+    "pink_dye",
 ]

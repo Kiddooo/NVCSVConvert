@@ -1,0 +1,37 @@
+import csv
+import subprocess
+from typing import List, Any
+
+from constants import VERSION
+from minecraft_data import MinecraftData
+
+
+def save_to_csv(filename: str, data: List[List[Any]]):
+    """Save Data To CSV File."""
+    with open(file=filename, mode="a", encoding="utf8", newline="") as csvfile_writer:
+        writer = csv.writer(
+            csvfile_writer, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL
+        )
+        writer.writerow(data)
+
+
+def load_minecraft_data(file_path: str) -> MinecraftData:
+    """Load Minecraft Data From A JSON File."""
+    try:
+        with open(file_path, "r", encoding="utf8") as version_file:
+            return MinecraftData().from_json(version_file.read())
+    except FileNotFoundError:
+        extract_version_data(version=VERSION, output_file=f"{VERSION}.json", toppings="items,blocks")
+        # Wait for the subprocess to finish
+        subprocess.run(["python", "-m", "subprocess"], capture_output=True, text=True)
+
+        # Try to load the newly created file
+        try:
+            with open(f"{VERSION}.json", "r", encoding="utf8") as version_file:
+                return MinecraftData().from_json(version_file.read())
+        except FileNotFoundError:
+            raise FileNotFoundError(f"Failed to create {VERSION}.json file")
+
+
+def extract_version_data(version: str, output_file: str, toppings: str):
+    subprocess.run(["python", "Burger/munch.py", "-d", version, "--output", output_file, "--toppings", toppings])

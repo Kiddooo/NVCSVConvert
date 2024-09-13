@@ -1,4 +1,4 @@
-armor_trim_transformer = {
+ARMOUR_TRIM_TRANSFORMER = {
     "ward_trim": "ward_armor_trim_smithing_template",
     "spire_trim": "spire_armor_trim_smithing_template",
     "coast_trim": "coast_armor_trim_smithing_template",
@@ -19,7 +19,7 @@ armor_trim_transformer = {
     "bolt_trim": "bolt_armor_trim_smithing_template",
 }
 
-pottery_sherd_transformer = {
+POTTERY_SHERD_TRANSFORMER = {
     "angler_sherd": "angler_pottery_sherd",
     "archer_sherd": "archer_pottery_sherd",
     "arms_up_sherd": "arms_up_pottery_sherd",
@@ -45,7 +45,7 @@ pottery_sherd_transformer = {
     "scrape_sherd": "scrape_pottery_sherd",
 }
 
-misc_item_transformer = {
+MISC_ITEM_TRANSFORMER = {
     "crimson_log": "crimson_stem",
     "warped_log": "warped_stem",
     "block_of_quartz": "quartz_block",
@@ -59,4 +59,7 @@ misc_item_transformer = {
     "totem": "totem_of_undying",
     "netherite_upgrade": "netherite_upgrade_smithing_template",
     "turtle_shell": "turtle_helmet",
+    "glow_ink": "glow_ink_sac",
+    "nether_quartz": "quartz",
+    "wool": "white_wool",
 }
