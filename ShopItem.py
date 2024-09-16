@@ -4,7 +4,10 @@ class ShopItem:
         self._inventory = shop_row["Inventory"]["rich_text"][0]["plain_text"].split(
             ", "
         )
-        self._coords = shop_row["Coords (X, Z)"]["rich_text"][0]["plain_text"]
+        try:
+            self._coords = shop_row["Coords (X, Z)"]["rich_text"][0]["plain_text"]
+        except IndexError:
+            self._coords = ""
         self._owner_ign = shop_row["Owner IGN"]["rich_text"][0]["plain_text"]
         try:
             self._spawn = shop_row["Spawn"]["select"]["name"]

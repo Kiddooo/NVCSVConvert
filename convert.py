@@ -10,7 +10,7 @@ from groups import (
     ARMOUR_TRIMS,
     POTTERY_SHERDS,
     FROGLIGHTS,
-    FLOWERS,
+    FLOWERS, CONCRETE, CONCRETE_POWDER, WOOL,
 )
 from transformers import (
     ARMOUR_TRIM_TRANSFORMER,
@@ -55,7 +55,7 @@ def process_item(item: str, mcitems: List[str], mcblocks: List[str]) -> str:
             logging.info(f"{Fore.LIGHTGREEN_EX}{result}{Fore.RESET}")
             return result
 
-    if item == "trim":
+    if item == "armor_trim":
         return ", ".join(
             [f"{trim.lower()}_armor_trim_smithing_template" for trim in ARMOUR_TRIMS]
         )
@@ -65,6 +65,12 @@ def process_item(item: str, mcitems: List[str], mcblocks: List[str]) -> str:
         return ", ".join([f"{froglight.lower()}_froglight" for froglight in FROGLIGHTS])
     elif item == "flower":
         return ", ".join(FLOWERS)
+    elif item == "concrete":
+        return ", ".join(CONCRETE)
+    elif item =="concrete_powder":
+        return ", ".join(CONCRETE_POWDER)
+    elif item == "wool":
+        return ", ".join(WOOL)
     else:
         logging.warning(f"{Fore.LIGHTRED_EX}{item}{Fore.RESET}")
         return ""

@@ -61,5 +61,7 @@ MISC_ITEM_TRANSFORMER = {
     "turtle_shell": "turtle_helmet",
     "glow_ink": "glow_ink_sac",
     "nether_quartz": "quartz",
-    "wool": "white_wool",
+    "stonebrick": "stone_brick",
+    "blazerod": "blaze_rod",
+    "mud_brick": "mud_bricks"
 }

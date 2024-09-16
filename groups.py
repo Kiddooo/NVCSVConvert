@@ -18,6 +18,8 @@ UNFILTERABLE_ITEMS = [
     "swift_sneak",
     "music_disc",
     "diamond_tool",
+    "unbreaking",
+    "mending"
 ]
 ARMOUR_TRIMS = [
     "ward",
@@ -256,21 +258,42 @@ WOOL = [
     "magenta_wool",
     "pink_wool",
 ]
-DYES = [
-    "white_dye",
-    "light_gray_dye",
-    "gray_dye",
-    "black_dye",
-    "brown_dye",
-    "red_dye",
-    "orange_dye",
-    "yellow_dye",
-    "lime_dye",
-    "green_dye",
-    "cyan_dye",
-    "light_blue_dye",
-    "blue_dye",
-    "purple_dye",
-    "magenta_dye",
-    "pink_dye",
+CONCRETE = [
+    "white_concrete",
+    "light_gray_concrete",
+    "gray_concrete",
+    "black_concrete",
+    "brown_concrete",
+    "red_concrete",
+    "orange_concrete",
+    "yellow_concrete",
+    "lime_concrete",
+    "green_concrete",
+    "cyan_concrete",
+    "light_blue_concrete",
+    "blue_concrete",
+    "purple_concrete",
+    "magenta_concrete",
+    "pink_concrete",
 ]
+
+CONCRETE_POWDER = [
+    "white_concrete_powder",
+    "light_gray_concrete_powder",
+    "gray_concrete_powder",
+    "black_concrete_powder",
+    "brown_concrete_powder",
+    "red_concrete_powder",
+    "orange_concrete_powder",
+    "yellow_concrete_powder",
+    "lime_concrete_powder",
+    "green_concrete_powder",
+    "cyan_concrete_powder",
+    "light_blue_concrete_powder",
+    "blue_concrete_powder",
+    "purple_concrete_powder",
+    "magenta_concrete_powder",
+    "pink_concrete_powder",
+]
+
+

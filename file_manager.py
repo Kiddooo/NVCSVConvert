@@ -1,4 +1,6 @@
 import csv
+import logging
+import os
 import subprocess
 from typing import List, Any
 
@@ -34,4 +36,7 @@ def load_minecraft_data(file_path: str) -> MinecraftData:
 
 
 def extract_version_data(version: str, output_file: str, toppings: str):
+    """Extract block and item information using Burger"""
+    logging.info(f"Downloading version {version}'s block and item information, Please wait...")
     subprocess.run(["python", "Burger/munch.py", "-d", version, "--output", output_file, "--toppings", toppings])
+    os.remove(version + ".jar")
