@@ -258,6 +258,24 @@ WOOL = [
     "magenta_wool",
     "pink_wool",
 ]
+DYES = [
+    "white_dye",
+    "light_gray_dye",
+    "gray_dye",
+    "black_dye",
+    "brown_dye",
+    "red_dye",
+    "orange_dye",
+    "yellow_dye",
+    "lime_dye",
+    "green_dye",
+    "cyan_dye",
+    "light_blue_dye",
+    "blue_dye",
+    "purple_dye",
+    "magenta_dye",
+    "pink_dye",
+]
 CONCRETE = [
     "white_concrete",
     "light_gray_concrete",
@@ -295,5 +313,3 @@ CONCRETE_POWDER = [
     "magenta_concrete_powder",
     "pink_concrete_powder",
 ]
-
-
