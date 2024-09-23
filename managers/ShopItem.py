@@ -11,8 +11,8 @@ class ShopItem:
         self._owner_ign = shop_row["Owner IGN"]["rich_text"][0]["plain_text"]
         try:
             self._spawn = shop_row["Spawn"]["select"]["name"]
-        except Exception as e:
-            print(shop_row, e)
+        except TypeError:
+            self._spawn = ""
 
     def get_shop_name(self) -> str:
         return self._shop_name

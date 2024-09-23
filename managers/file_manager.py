@@ -2,13 +2,13 @@ import csv
 import logging
 import os
 import subprocess
-from typing import List, Any
+from typing import List
 
 from constants import VERSION
-from minecraft_data import MinecraftData
+from converters.minecraft_data import MinecraftData
 
 
-def save_to_csv(filename: str, data: List[List[Any]]):
+def save_to_csv(filename: str, data: List[str]):
     """Save Data To CSV File."""
     with open(file=filename, mode="a", encoding="utf8", newline="") as csvfile_writer:
         writer = csv.writer(

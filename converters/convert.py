@@ -3,8 +3,7 @@ from typing import List, Dict, Any
 
 from colorama import Fore
 
-from ShopItem import ShopItem
-from groups import (
+from converters.groups import (
     BLOCKS_ENDS_WITH_S,
     UNFILTERABLE_ITEMS,
     ARMOUR_TRIMS,
@@ -12,17 +11,12 @@ from groups import (
     FROGLIGHTS,
     FLOWERS, CONCRETE, CONCRETE_POWDER, WOOL,
 )
-from transformers import (
+from converters.transformers import (
     ARMOUR_TRIM_TRANSFORMER,
     POTTERY_SHERD_TRANSFORMER,
     MISC_ITEM_TRANSFORMER,
 )
-
-logging.basicConfig(
-    level=logging.INFO,
-    format=f"{Fore.WHITE} %(asctime)s - %(levelname)s - %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-)
+from managers.ShopItem import ShopItem
 
 
 def process_item(item: str, mcitems: List[str], mcblocks: List[str]) -> str:
@@ -91,3 +85,4 @@ def process_shop_item(
             shop_inv.append(processed_item)
 
     return shop, shop_inv
+

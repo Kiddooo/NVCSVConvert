@@ -19,7 +19,8 @@ UNFILTERABLE_ITEMS = [
     "music_disc",
     "diamond_tool",
     "unbreaking",
-    "mending"
+    "mending",
+    "soul_speed"
 ]
 ARMOUR_TRIMS = [
     "ward",
