@@ -9,7 +9,10 @@ from converters.groups import (
     ARMOUR_TRIMS,
     POTTERY_SHERDS,
     FROGLIGHTS,
-    FLOWERS, CONCRETE, CONCRETE_POWDER, WOOL,
+    FLOWERS,
+    CONCRETE,
+    CONCRETE_POWDER,
+    WOOL,
 )
 from converters.transformers import (
     ARMOUR_TRIM_TRANSFORMER,
@@ -61,7 +64,7 @@ def process_item(item: str, mcitems: List[str], mcblocks: List[str]) -> str:
         return ", ".join(FLOWERS)
     elif item == "concrete":
         return ", ".join(CONCRETE)
-    elif item =="concrete_powder":
+    elif item == "concrete_powder":
         return ", ".join(CONCRETE_POWDER)
     elif item == "wool":
         return ", ".join(WOOL)
@@ -85,4 +88,3 @@ def process_shop_item(
             shop_inv.append(processed_item)
 
     return shop, shop_inv
-

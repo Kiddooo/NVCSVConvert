@@ -19,13 +19,14 @@ def calculate_local_hash(local_path):
             md5.update(chunk)
     return md5.hexdigest()
 
+
 def connect_to_server(passphrase=None):
     ssh_client = paramiko.SSHClient()
     ssh_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
     try:
         if passphrase is None:
-            passphrase = os.environ.get('SSH_PASSPHRASE')
+            passphrase = os.environ.get("SSH_PASSPHRASE")
             if passphrase is None:
                 passphrase = getpass.getpass("Enter SSH key passphrase: ")
 
@@ -38,11 +39,12 @@ def connect_to_server(passphrase=None):
         logging.error(f"Error connecting to server: {str(e)}")
         raise
 
+
 def execute_command(ssh_client, command):
     try:
         stdin, stdout, stderr = ssh_client.exec_command(command)
-        output = stdout.read().decode('utf-8').strip()
-        error = stderr.read().decode('utf-8').strip()
+        output = stdout.read().decode("utf-8").strip()
+        error = stderr.read().decode("utf-8").strip()
 
         if error:
             logging.error(f"Error executing command '{command}': {error}")
@@ -52,6 +54,7 @@ def execute_command(ssh_client, command):
     except Exception as e:
         logging.exception(f"Exception occurred while executing command '{command}'")
         raise
+
 
 def upload_file_to_server(ssh_client, local_path, remote_path):
     sftp_client = ssh_client.open_sftp()
@@ -68,12 +71,21 @@ def upload_file_to_server(ssh_client, local_path, remote_path):
     finally:
         sftp_client.close()
 
+
 def update_version_on_server(ssh_client):
     try:
-        current_version = float(execute_command(ssh_client, "cat /var/www/files/shops_version.txt"))
-        new_version = round(current_version + 0.1, 1) if current_version % 1 != 0 else int(current_version + 1)
+        current_version = float(
+            execute_command(ssh_client, "cat /var/www/files/shops_version.txt")
+        )
+        new_version = (
+            round(current_version + 0.1, 1)
+            if current_version % 1 != 0
+            else int(current_version + 1)
+        )
 
-        execute_command(ssh_client, f"echo {new_version} > /var/www/files/shops_version.txt")
+        execute_command(
+            ssh_client, f"echo {new_version} > /var/www/files/shops_version.txt"
+        )
         logging.info(f"Updated shops_version.txt to version {new_version}")
     except Exception as e:
         logging.error(f"Error updating version on server: {str(e)}")

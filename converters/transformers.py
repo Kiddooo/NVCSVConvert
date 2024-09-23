@@ -64,5 +64,5 @@ MISC_ITEM_TRANSFORMER = {
     "stonebrick": "stone_brick",
     "blazerod": "blaze_rod",
     "mud_brick": "mud_bricks",
-    "rocket": "firework_rocket"
+    "rocket": "firework_rocket",
 }

@@ -23,7 +23,9 @@ def load_minecraft_data(file_path: str) -> MinecraftData:
         with open(file_path, "r", encoding="utf8") as version_file:
             return MinecraftData().from_json(version_file.read())
     except FileNotFoundError:
-        extract_version_data(version=VERSION, output_file=f"{VERSION}.json", toppings="items,blocks")
+        extract_version_data(
+            version=VERSION, output_file=f"{VERSION}.json", toppings="items,blocks"
+        )
         # Wait for the subprocess to finish
         subprocess.run(["python", "-m", "subprocess"], capture_output=True, text=True)
 
@@ -37,6 +39,19 @@ def load_minecraft_data(file_path: str) -> MinecraftData:
 
 def extract_version_data(version: str, output_file: str, toppings: str):
     """Extract block and item information using Burger"""
-    logging.info(f"Downloading version {version}'s block and item information, Please wait...")
-    subprocess.run(["python", "Burger/munch.py", "-d", version, "--output", output_file, "--toppings", toppings])
+    logging.info(
+        f"Downloading version {version}'s block and item information, Please wait..."
+    )
+    subprocess.run(
+        [
+            "python",
+            "Burger/munch.py",
+            "-d",
+            version,
+            "--output",
+            output_file,
+            "--toppings",
+            toppings,
+        ]
+    )
     os.remove(version + ".jar")
