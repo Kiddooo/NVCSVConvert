@@ -9,11 +9,11 @@ load_dotenv()
 
 def query_notion_database():
     # Set up the API endpoint URL
-    url = f'{os.getenv("NOTION_API")}'
+    url = f"{os.getenv('NOTION_API')}"
 
     # Define the headers required for the Notion API
     headers = {
-        "Authorization": f'Bearer {os.getenv("NOTION_SECRET")}',
+        "Authorization": f"Bearer {os.getenv('NOTION_SECRET')}",
         "Notion-Version": os.getenv("NOTION_VERSION"),
     }
 

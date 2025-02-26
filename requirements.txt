@@ -1,0 +1,7 @@
+colorama
+requests
+dotenv
+paramiko
+jawa
+setuptools
+six

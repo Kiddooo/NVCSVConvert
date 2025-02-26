@@ -12,7 +12,6 @@ from managers.server_manager import (
     connect_to_server,
     execute_command,
     upload_file_to_server,
-    update_version_on_server,
 )
 
 logging.basicConfig(
@@ -53,10 +52,7 @@ def main():
             raise FileNotFoundError(f"{OUTPUT_FILE} was not found.")
 
         execute_command(ssh_client, "cd /var/www/files")
-        execute_command(ssh_client, "rm -f /var/www/files/shops.csv")
         upload_file_to_server(ssh_client, "shops.csv", "/var/www/files/shops.csv")
-
-        update_version_on_server(ssh_client)
 
         ssh_client.close()
         os.remove("shops.csv")

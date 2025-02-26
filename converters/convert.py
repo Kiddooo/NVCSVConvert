@@ -13,6 +13,8 @@ from converters.groups import (
     CONCRETE,
     CONCRETE_POWDER,
     WOOL,
+    DYES,
+    GLAZED_TERRACORRA,
 )
 from converters.transformers import (
     ARMOUR_TRIM_TRANSFORMER,
@@ -68,6 +70,10 @@ def process_item(item: str, mcitems: List[str], mcblocks: List[str]) -> str:
         return ", ".join(CONCRETE_POWDER)
     elif item == "wool":
         return ", ".join(WOOL)
+    elif item == "dye":
+        return ", ".join(DYES)
+    elif item == "glazed_terracotta":
+        return ", ".join(GLAZED_TERRACORRA)
     else:
         logging.warning(f"{Fore.LIGHTRED_EX}{item}{Fore.RESET}")
         return ""

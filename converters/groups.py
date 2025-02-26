@@ -21,6 +21,36 @@ UNFILTERABLE_ITEMS = [
     "unbreaking",
     "mending",
     "soul_speed",
+    "mini_block",
+    "regeneration_potion",
+    "halloween_garland_map_art",
+    "carved_pumpkin_map_art",
+    "map_art_sticker",
+    "“oh_shit”_boxe",
+    "enchanted_tool",
+    "enchanted_armor",
+    "diamond_armour",
+    "guardian_head",
+    "swift_sneak_3",
+    "map_art",
+    "ore",  # for now cuz im too lazy to make it its own group :)
+    "phantom_head",
+    "teleportation_service",
+    "pokemon_card",
+    "mob_head",
+    "glow_squid_head",
+    "renewable_lava_shulker",
+    "magma_cube_head",
+    "iron_golem_head",
+    "vending_machine",
+    "hoglin_head",
+    "food",
+    "plushie",
+    "elytra_box",
+    "banner"  # lazy,
+    "villager_trading_hall",
+    "custom_head",
+    "coral",  # lazy
 ]
 ARMOUR_TRIMS = [
     "ward",
@@ -295,7 +325,6 @@ CONCRETE = [
     "magenta_concrete",
     "pink_concrete",
 ]
-
 CONCRETE_POWDER = [
     "white_concrete_powder",
     "light_gray_concrete_powder",
@@ -313,4 +342,22 @@ CONCRETE_POWDER = [
     "purple_concrete_powder",
     "magenta_concrete_powder",
     "pink_concrete_powder",
+]
+GLAZED_TERRACORRA = [
+    "white_glazed_terracotta",
+    "orange_glazed_terracotta",
+    "magenta_glazed_terracotta",
+    "light_blue_glazed_terracotta",
+    "yellow_glazed_terracotta",
+    "lime_glazed_terracotta",
+    "pink_glazed_terracotta",
+    "gray_glazed_terracotta",
+    "light_gray_glazed_terracotta",
+    "cyan_glazed_terracotta",
+    "purple_glazed_terracotta",
+    "blue_glazed_terracotta",
+    "brown_glazed_terracotta",
+    "green_glazed_terracotta",
+    "red_glazed_terracotta",
+    "black_glazed_terracotta",
 ]
