@@ -72,7 +72,15 @@ class ShopDatabaseProperties:
 
     def __list__(self):
         _inventory = ", ".join(
-            str(item) if not isinstance(item, list) else ", ".join(str(subitem) for subitem in item) for item in
-            self.inventory.inventory[1])
-        return [self.shop_name.plain_text, _inventory, self.owner_ign.plain_text, self.coords.plain_text,
-                self.spawn.name]
+            str(item)
+            if not isinstance(item, list)
+            else ", ".join(str(subitem) for subitem in item)
+            for item in self.inventory.inventory[1]
+        )
+        return [
+            self.shop_name.plain_text,
+            _inventory,
+            self.owner_ign.plain_text,
+            self.coords.plain_text,
+            self.spawn.name,
+        ]

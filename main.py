@@ -95,7 +95,9 @@ class Main:
         try:
             with self.ssh_connection() as ssh_client:
                 self.server_manager.execute_command("cd /var/www/files", ssh_client)
-                self.server_manager.upload_file_to_server(OUTPUT_FILE, f"/var/www/files/{OUTPUT_FILE}", ssh_client)
+                self.server_manager.upload_file_to_server(
+                    OUTPUT_FILE, f"/var/www/files/{OUTPUT_FILE}", ssh_client
+                )
             os.remove(OUTPUT_FILE)
         except ConnectionError as e:
             console.log(f"Failed to connect to server: {e}")
@@ -116,7 +118,10 @@ class Main:
                     file=filename, mode="a", encoding="utf8", newline=""
             ) as csvfile_writer:
                 writer = csv.writer(
-                    csvfile_writer, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL
+                    csvfile_writer,
+                    delimiter=",",
+                    quotechar='"',
+                    quoting=csv.QUOTE_MINIMAL,
                 )
                 writer.writerow(data)
         except IOError as e:
@@ -166,7 +171,9 @@ if __name__ == "__main__":
         console.save_text("server_manager.log", clear=False)
 
         if len(shop_database_properties.inventory.inventory[1]) >= 1:
-            main.save_to_csv(filename=self.output_file, data=shop_database_properties.__list__())
+            main.save_to_csv(
+                filename=self.output_file, data=shop_database_properties.__list__()
+            )
         else:
             continue
 

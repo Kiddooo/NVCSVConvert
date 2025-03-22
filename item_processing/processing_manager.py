@@ -117,7 +117,9 @@ class ProcessingManager:
                             )
                             if transformed:
                                 if self.is_in_minecraft_data(transformed):
-                                    self.console.print(f"Transformed '{item}' to '{transformed}'")
+                                    self.console.print(
+                                        f"Transformed '{item}' to '{transformed}'"
+                                    )
                                     _processed_inventory.append(transformed)
                                     continue
                                 else:
