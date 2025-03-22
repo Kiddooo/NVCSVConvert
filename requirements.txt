@@ -1,7 +1,6 @@
-colorama
 requests
-dotenv
 paramiko
-jawa
-setuptools
-six
+rich
+dotenv
+python-dotenv
+enum34
