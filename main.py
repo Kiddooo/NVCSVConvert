@@ -166,16 +166,8 @@ if __name__ == "__main__":
         console.save_text("server_manager.log", clear=False)
 
         if len(shop_database_properties.inventory.inventory[1]) >= 1:
-            main.save_to_csv(filename="shops.csv", data=shop_database_properties.__list__())
+            main.save_to_csv(filename=self.output_file, data=shop_database_properties.__list__())
         else:
             continue
 
     main.upload_to_server()
-
-    # for item in row["properties"]["Inventory"]["rich_text"][0]["plain_text"].split(
-    #     ","
-    # ):
-    #     print(item.strip())
-    # print("\n")
-    #
-    # print(shop_database_properties.inventory.plain_text)

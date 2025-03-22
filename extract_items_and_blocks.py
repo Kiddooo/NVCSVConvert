@@ -4,25 +4,6 @@ from typing import List, Tuple
 
 import requests
 
-from load_minecraft_data import MinecraftData
-
-
-def extract_items_and_blocks(
-        minecraft_data: MinecraftData,
-) -> Tuple[List[str], List[str]]:
-    minecraft_items = [
-        item.replace("minecraft.", "")
-        for item in minecraft_data["items"]
-        if item.startswith("minecraft.")
-    ]
-    minecraft_blocks = [
-        block.replace("minecraft.", "")
-        for block in minecraft_data["blocks"]
-        if block.startswith("minecraft.")
-    ]
-
-    return minecraft_items, minecraft_blocks
-
 
 class MinecraftExtractor:
     def __init__(

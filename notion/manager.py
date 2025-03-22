@@ -16,9 +16,7 @@ class NotionManager:
     def query_notion_database(self):
         try:
             self.console.clear()
-            with self.console.status(
-                    "[bold yellow]Querying Notion database..."
-            ) as status:
+            with self.console.status("[bold yellow]Querying Notion database..."):
                 response = requests.post(self.url, headers=self.headers, timeout=30)
                 response.raise_for_status()
 

@@ -1,5 +1,6 @@
 from typing import Callable, Optional, Dict, Any
 
+from constants import console
 from item_processing.item_groups import (
     BLOCKS_ENDS_WITH_S,
     ARMOUR_TRIMS,
@@ -26,6 +27,7 @@ class ProcessingManager:
         self.processing_list = list()
         self.minecraft_data = dict()
         self.item_transformers = ItemTransformers()
+        self.console = console
         self.transformers = [
             (self.item_transformers.ARMOUR_TRIM_TRANSFORMER, lambda trim: trim.lower()),
             (
@@ -100,7 +102,6 @@ class ProcessingManager:
                 _processed_inventory.append(item)
             else:
                 try:
-                    print(item)
                     item_type = ItemType(item)
                     special_item = self.process_special_item(
                         item_type=item_type, items=self.items_map[item_type]
@@ -116,7 +117,7 @@ class ProcessingManager:
                             )
                             if transformed:
                                 if self.is_in_minecraft_data(transformed):
-                                    print(f"Transformed '{item}' to '{transformed}'")
+                                    self.console.print(f"Transformed '{item}' to '{transformed}'")
                                     _processed_inventory.append(transformed)
                                     continue
                                 else:
