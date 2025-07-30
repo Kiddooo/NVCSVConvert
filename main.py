@@ -1,5 +1,6 @@
 import csv
 import os
+import traceback
 from contextlib import contextmanager
 from typing import Generator, List
 
@@ -13,7 +14,6 @@ from constants import (
     MINECRAFT_EXTRACTOR,
     MINECRAFT_DATA,
     OUTPUT_FILE,
-    console,
 )
 from notion.models import (
     ShopInventoryModel,
@@ -115,7 +115,7 @@ class Main:
         """
         try:
             with open(
-                    file=filename, mode="a", encoding="utf8", newline=""
+                file=filename, mode="a", encoding="utf8", newline=""
             ) as csvfile_writer:
                 writer = csv.writer(
                     csvfile_writer,
@@ -130,6 +130,8 @@ class Main:
 
 
 if __name__ == "__main__":
+    from constants import console
+
     main = Main()
     minecraft_data = main.load_data()
     notion_database = main.query_notion_database()["results"]
@@ -141,12 +143,16 @@ if __name__ == "__main__":
             shop_name=ShopNameModel(**row["properties"]["Shop Name"]),
         )
 
-        processed_inventory = main.process_data(
-            _minecraft_data=minecraft_data,
-            inventory=row["properties"]["Inventory"]["rich_text"][0][
-                "plain_text"
-            ].split(","),
-        )
+        try:
+            processed_inventory = main.process_data(
+                _minecraft_data=minecraft_data,
+                inventory=row["properties"]["Inventory"]["rich_text"][0][
+                    "plain_text"
+                ].split(","),
+            )
+        except Exception:
+            print(traceback.format_exc())
+
         shop_database_properties.inventory = ShopInventoryModel(processed_inventory)
 
         shop_tree = Tree(
@@ -172,7 +178,7 @@ if __name__ == "__main__":
 
         if len(shop_database_properties.inventory.inventory[1]) >= 1:
             main.save_to_csv(
-                filename=self.output_file, data=shop_database_properties.__list__()
+                filename=OUTPUT_FILE, data=shop_database_properties.__list__()
             )
         else:
             continue

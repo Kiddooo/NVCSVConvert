@@ -3,7 +3,7 @@ import requests
 
 class NotionManager:
     def __init__(
-            self, notion_api: str, notion_secret: str, notion_version: str, console=None
+        self, notion_api: str, notion_secret: str, notion_version: str, console=None
     ):
         self.console = console
         self.url = notion_api

@@ -7,11 +7,11 @@ import requests
 
 class MinecraftExtractor:
     def __init__(
-            self,
-            version: str,
-            output_file_path: str,
-            toppings: str = "items,blocks",
-            console=None,
+        self,
+        version: str,
+        output_file_path: str,
+        toppings: str = "items,blocks",
+        console=None,
     ) -> None:
         self.version = version
         self.output_file_path = output_file_path

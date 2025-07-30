@@ -83,7 +83,7 @@ class ServerManager:
                 console.print("[blue]SSH connection closed[/blue]")
 
     def connect_to_server(
-            self, passphrase: Optional[str] = None, timeout: int = 30
+        self, passphrase: Optional[str] = None, timeout: int = 30
     ) -> paramiko.SSHClient:
         """
         Establish SSH connection to the server.
@@ -101,7 +101,7 @@ class ServerManager:
                 if passphrase is None:
                     passphrase = getpass.getpass("Enter SSH key passphrase: ")
 
-            pkey = paramiko.RSAKey.from_private_key_file(
+            pkey = paramiko.Ed25519Key.from_private_key_file(
                 SSH_KEY_PATH, password=passphrase
             )
 
@@ -137,7 +137,7 @@ class ServerManager:
             raise SSHConnectionError(error_msg)
 
     def execute_command(
-            self, command: str, ssh_client: Optional[paramiko.SSHClient] = None
+        self, command: str, ssh_client: Optional[paramiko.SSHClient] = None
     ) -> Dict[str, Any]:
         """
         Execute a command on the remote server.
@@ -171,7 +171,7 @@ class ServerManager:
             raise SSHConnectionError(error_msg)
 
     def calculate_remote_hash(
-            self, remote_path: str, ssh_client: Optional[paramiko.SSHClient] = None
+        self, remote_path: str, ssh_client: Optional[paramiko.SSHClient] = None
     ) -> str:
         """
         Calculate MD5 hash of a remote file.
@@ -187,10 +187,10 @@ class ServerManager:
         return result["stdout"]
 
     def upload_file_to_server(
-            self,
-            local_path: Union[str, Path],
-            remote_path: str,
-            ssh_client: Optional[paramiko.SSHClient] = None,
+        self,
+        local_path: Union[str, Path],
+        remote_path: str,
+        ssh_client: Optional[paramiko.SSHClient] = None,
     ) -> bool:
         """
         Upload a file to the remote server.
@@ -241,10 +241,10 @@ class ServerManager:
             raise SSHConnectionError(error_msg)
 
     def download_file_from_server(
-            self,
-            remote_path: str,
-            local_path: Union[str, Path],
-            ssh_client: Optional[paramiko.SSHClient] = None,
+        self,
+        remote_path: str,
+        local_path: Union[str, Path],
+        ssh_client: Optional[paramiko.SSHClient] = None,
     ) -> bool:
         """
         Download a file from the remote server.
@@ -290,10 +290,10 @@ class ServerManager:
             raise SSHConnectionError(error_msg)
 
     def update_version_on_server(
-            self,
-            version_info: Dict[str, Any],
-            remote_path: str,
-            ssh_client: Optional[paramiko.SSHClient] = None,
+        self,
+        version_info: Dict[str, Any],
+        remote_path: str,
+        ssh_client: Optional[paramiko.SSHClient] = None,
     ) -> bool:
         """
         Update version information on the remote server.

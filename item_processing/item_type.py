@@ -15,6 +15,10 @@ class ItemType(Enum):
     STAINED_GLASS = "stained_glass"
     BANNERS = "banner"
     CORAL = "coral"
+    SAPLINGS = "sapling"
+    LOGS = "log"
+    WOOD = "wood"
+    STEWS = "stew"
 
     def format_item(self, item_name: str) -> str:
         """Format an item name based on its type."""
