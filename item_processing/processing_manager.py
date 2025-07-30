@@ -21,6 +21,7 @@ from item_processing.item_groups import (
     UNFILTERABLE_ITEMS,
     BANNERS,
     CORAL,
+    SEEDS
 )
 from item_processing.item_type import ItemType
 from item_processing.transformer import ItemTransformers
@@ -60,6 +61,7 @@ class ProcessingManager:
             ItemType.LOGS: LOGS,
             ItemType.WOOD: WOOD,
             ItemType.STEWS: STEWS,
+            ItemType.SEEDS: SEEDS,
         }
 
     def add_inventory(self, inventory: list) -> None:

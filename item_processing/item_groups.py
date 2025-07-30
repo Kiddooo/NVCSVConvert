@@ -436,3 +436,9 @@ WOOD = [
     "warped_hyphae",
 ]
 STEWS = ["beetroot_soup", "mushroom_stew", "rabbit_stew", "suspicious_stew"]
+SEEDS = [
+    "wheat_seeds",
+    "melon_seeds",
+    "pumpkin_seeds",
+    "beetroot_seeds"
+]

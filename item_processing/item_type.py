@@ -1,6 +1,5 @@
 from enum import Enum
 
-
 class ItemType(Enum):
     ARMOR_TRIM = "armor_trim"
     POTTERY_SHERD = "pottery_sherd"
@@ -19,6 +18,7 @@ class ItemType(Enum):
     LOGS = "log"
     WOOD = "wood"
     STEWS = "stew"
+    SEEDS = "seeds"
 
     def format_item(self, item_name: str) -> str:
         """Format an item name based on its type."""
