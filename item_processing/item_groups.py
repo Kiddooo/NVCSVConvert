@@ -419,8 +419,8 @@ LOGS = [
     "mangrove_log",
     "cherry_log",
     "pale_oak_log",
-    "crimson_log",
-    "warped_log",
+    "crimson_stem",
+    "warped_stem",
 ]
 WOOD = [
     "oak_wood",
