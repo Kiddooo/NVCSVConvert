@@ -130,7 +130,7 @@ class ItemTransformers:
         "xp_bottle": "experience_bottle",
         "lapi": "lapis_lazuli",
         "red_stone": "redstone",
-        "Bottle_O’_Enchanting": "experience_bottle",
+        "exp_bottle": "experience_bottle",
         "snow_bucket": "powder_snow_bucket",
         "deepslate_tile": "deepslate_tiles",
         "bamboo_wood": "bamboo_block",

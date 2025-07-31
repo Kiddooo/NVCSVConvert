@@ -18,7 +18,7 @@ class ItemType(Enum):
     LOGS = "log"
     WOOD = "wood"
     STEWS = "stew"
-    SEEDS = "seeds"
+    SEEDS = "seed"
 
     def format_item(self, item_name: str) -> str:
         """Format an item name based on its type."""
