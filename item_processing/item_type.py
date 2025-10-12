@@ -19,6 +19,7 @@ class ItemType(Enum):
     WOOD = "wood"
     STEWS = "stew"
     SEEDS = "seed"
+    MAPART = "map_art"
 
     def format_item(self, item_name: str) -> str:
         """Format an item name based on its type."""

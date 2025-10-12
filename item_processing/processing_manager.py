@@ -5,6 +5,7 @@ from item_processing.item_groups import (
     BLOCKS_ENDS_WITH_S,
     ARMOUR_TRIMS,
     LOGS,
+    MAPART,
     POTTERY_SHERDS,
     FROGLIGHTS,
     CONCRETE,
@@ -62,6 +63,7 @@ class ProcessingManager:
             ItemType.WOOD: WOOD,
             ItemType.STEWS: STEWS,
             ItemType.SEEDS: SEEDS,
+            ItemType.MAPART: MAPART
         }
 
     def add_inventory(self, inventory: list) -> None:

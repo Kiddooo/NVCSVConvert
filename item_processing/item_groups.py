@@ -61,7 +61,6 @@ UNFILTERABLE_ITEMS: FrozenSet[str] = frozenset(
         "diamond_armour",
         "guardian_head",
         "swift_sneak_3",
-        "map_art",
         "ore",
         "phantom_head",
         "teleportation_service",
@@ -396,6 +395,10 @@ BLOCKS_ENDS_WITH_S: FrozenSet[str] = frozenset(
         "pale_hanging_moss",
         "hanging_roots",
         "hanging_signs",
+        "short_dry_grass",
+        "tall_dry_grass",
+        "wildflowers",
+        "light_blue_harness",
     ]
 )
 
@@ -442,3 +445,5 @@ SEEDS = [
     "pumpkin_seeds",
     "beetroot_seeds"
 ]
+
+MAPART = ["map_art"]
