@@ -1,28 +1,28 @@
 import traceback
-from typing import Callable, Optional, Dict, Any
+from typing import Any, Callable, Dict, Optional
 
 from item_processing.item_groups import (
-    BLOCKS_ENDS_WITH_S,
     ARMOUR_TRIMS,
+    BANNERS,
+    BLOCKS_ENDS_WITH_S,
+    CONCRETE,
+    CONCRETE_POWDER,
+    CORAL,
+    DYES,
+    FLOWERS,
+    FROGLIGHTS,
+    GLAZED_TERRACOTTA,
     LOGS,
     MAPART,
     POTTERY_SHERDS,
-    FROGLIGHTS,
-    CONCRETE,
-    CONCRETE_POWDER,
-    GLAZED_TERRACOTTA,
     SAPLINGS,
+    SEEDS,
     STAINED_GLASS,
     STAINED_GLASS_PANE,
     STEWS,
+    UNFILTERABLE_ITEMS,
     WOOD,
     WOOL,
-    DYES,
-    FLOWERS,
-    UNFILTERABLE_ITEMS,
-    BANNERS,
-    CORAL,
-    SEEDS
 )
 from item_processing.item_type import ItemType
 from item_processing.transformer import ItemTransformers
@@ -63,7 +63,7 @@ class ProcessingManager:
             ItemType.WOOD: WOOD,
             ItemType.STEWS: STEWS,
             ItemType.SEEDS: SEEDS,
-            ItemType.MAPART: MAPART
+            ItemType.MAPART: MAPART,
         }
 
     def add_inventory(self, inventory: list) -> None:

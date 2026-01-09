@@ -1,4 +1,4 @@
-from typing import List, FrozenSet
+from typing import FrozenSet, List
 
 """
 Minecraft Items and Blocks Constants Module
@@ -111,6 +111,10 @@ UNFILTERABLE_ITEMS: FrozenSet[str] = frozenset(
         "po_box_rental",
         "postcard",
         "mob_head",
+        # Biz Added
+        "copper_armor",
+        "copper_tool",
+        "copper_tools"
     ]
 )
 
@@ -196,6 +200,7 @@ FLOWERS: FrozenSet[str] = frozenset(
         "pink_tulip",
         "closed_eyeblossom",
         "open_eyeblossom",
+        "catus_flower",
     ]
 )
 
@@ -439,11 +444,40 @@ WOOD = [
     "warped_hyphae",
 ]
 STEWS = ["beetroot_soup", "mushroom_stew", "rabbit_stew", "suspicious_stew"]
-SEEDS = [
-    "wheat_seeds",
-    "melon_seeds",
-    "pumpkin_seeds",
-    "beetroot_seeds"
-]
+SEEDS = ["wheat_seeds", "melon_seeds", "pumpkin_seeds", "beetroot_seeds"]
 
 MAPART = ["map_art"]
+
+# Biz added
+COPPER_GOLEM_STATUES = [
+    "copper_golem_statue",
+    "exposed_copper_golem_statue",
+    "weathered_copper_golem_statue",
+    "oxidized_copper_golem_statue",
+    "waxed_copper_golem_statue",
+    "waxed_exposed_copper_golem_statue",
+    "waxed_weathered_copper_golem_statue",
+    "waxed_oxidized_copper_golem_statue",
+]
+
+COPPER_CHESTS = [
+    "copper_chest",
+    "exposed_copper_chest",
+    "weathered_copper_chest",
+    "oxidized_copper_chest",
+    "waxed_copper_chest",
+    "waxed_exposed_copper_chest",
+    "waxed_weathered_copper_chest",
+    "waxed_oxidized_copper_chest",
+]
+
+COPPER_LANTERNS = [
+    "copper_lantern",
+    "exposed_copper_lantern",
+    "weathered_copper_lantern",
+    "oxidized_copper_lantern",
+    "waxed_copper_lantern",
+    "waxed_exposed_copper_lantern",
+    "waxed_weathered_copper_lantern",
+    "waxed_oxidized_copper_lantern",
+]

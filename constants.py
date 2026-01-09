@@ -37,7 +37,7 @@ logging.basicConfig(
 
 OUTPUT_FILE = "shops.csv"
 
-MINECRAFT_VERSION = "1.21.8"
+MINECRAFT_VERSION = "1.21.11"
 MINECRAFT_EXTRACTOR = MinecraftExtractor(
     version=MINECRAFT_VERSION,
     output_file_path=f"{MINECRAFT_VERSION}.json",
