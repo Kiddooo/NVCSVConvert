@@ -1,11 +1,18 @@
+"""
+Server Manager Module
+=====================
+
+Handles SSH connections, file uploads/downloads, and remote command execution.
+"""
+
 import getpass
 import hashlib
 import json
 import os
 import socket
-from contextlib import contextmanager
+from contextlib import contextmanager, nullcontext  # Fixed import
 from pathlib import Path
-from typing import Optional, Union, Dict, Any
+from typing import Any, Dict, Optional, Union
 
 import paramiko
 from dotenv import load_dotenv
@@ -111,6 +118,7 @@ class ServerManager:
                 username=SERVER_USERNAME,
                 pkey=pkey,
                 timeout=timeout,
+                port=2222,
             )
             console.print("[green]Successfully connected to server[/green]")
             return ssh_client

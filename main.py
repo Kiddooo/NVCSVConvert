@@ -1,71 +1,187 @@
+"""
+Shop Inventory Processor
+========================
+
+Main application for processing Minecraft shop inventories from Notion
+and exporting validated data to CSV for server upload.
+
+Usage:
+    python main.py
+"""
+
 import csv
 import os
 import traceback
 from contextlib import contextmanager
-from typing import Generator, List
+from dataclasses import dataclass
+from typing import Generator, List, Optional
 
 from paramiko import SSHClient
+from rich.console import Console
 from rich.tree import Tree
 
 from constants import (
-    NOTION_MANAGER,
-    PROCESSING_MANAGER,
-    MINECRAFT_VERSION,
-    MINECRAFT_EXTRACTOR,
     MINECRAFT_DATA,
+    MINECRAFT_EXTRACTOR,
+    MINECRAFT_VERSION,
+    NOTION_MANAGER,
     OUTPUT_FILE,
+    PROCESSING_MANAGER,
+    console,
 )
-from notion.models import (
-    ShopInventoryModel,
-    ShopOwnerModel,
-    ShopCoordsModel,
-    ShopSpawnModel,
-    ShopNameModel,
-    ShopDatabaseProperties,
-)
+from notion.models import ShopDatabaseProperties, ShopInventoryModel
 from server_manager import ServerManager
 
 
-class Main:
-    def __init__(self):
-        self.console = console
-        self.version = MINECRAFT_VERSION
-        self.output_file = OUTPUT_FILE
-        self.extractor = MINECRAFT_EXTRACTOR
+@dataclass
+class AppConfig:
+    """Application configuration."""
+
+    version: str = MINECRAFT_VERSION
+    output_file: str = OUTPUT_FILE
+    min_items_for_export: int = 1
+
+
+class ShopProcessor:
+    """
+    Main application class for processing shop inventories.
+
+    Coordinates data loading, processing, display, and export.
+    """
+
+    def __init__(
+        self, config: Optional[AppConfig] = None, console: Optional[Console] = None
+    ):
+        """
+        Initialize the shop processor.
+
+        Args:
+            config: Application configuration (uses defaults if not provided)
+            console: Rich console for output (uses global if not provided)
+        """
+        self.config = config or AppConfig()
+        self.console = console or globals().get("console")
         self.minecraft_data = MINECRAFT_DATA
+        self.extractor = MINECRAFT_EXTRACTOR
         self.notion_manager = NOTION_MANAGER
         self.processing_manager = PROCESSING_MANAGER
         self.server_manager = ServerManager()
 
-    def load_data(self):
-        return self.minecraft_data.load_data(
-            file_path=f"{self.version}.json", extractor=self.extractor
+        self._minecraft_data_cache: Optional[dict] = None
+
+    def load_minecraft_data(self) -> dict:
+        """
+        Load Minecraft item/block data.
+
+        Returns:
+            Dictionary with 'items' and 'blocks' keys
+        """
+        if self._minecraft_data_cache is None:
+            self._minecraft_data_cache = self.minecraft_data.load_data(
+                file_path=f"{self.config.version}.json", extractor=self.extractor
+            )
+        return self._minecraft_data_cache
+
+    def fetch_notion_data(self) -> List[dict]:
+        """
+        Fetch shop data from Notion database.
+
+        Returns:
+            List of shop entries from Notion
+        """
+        response = self.notion_manager.query_notion_database()
+        return response.get("results", []) if response else []
+
+    def process_shop_inventory(self, raw_inventory: List[str]) -> ShopInventoryModel:
+        """
+        Process a raw inventory list.
+
+        Args:
+            raw_inventory: List of item names from Notion
+
+        Returns:
+            Processed inventory model with found/missing items
+        """
+        minecraft_data = self.load_minecraft_data()
+        self.processing_manager.add_minecraft_data(minecraft_data)
+        self.processing_manager.add_inventory(raw_inventory)
+
+        result = self.processing_manager.process_data()
+        return ShopInventoryModel(result)
+
+    def display_shop_tree(self, shop: ShopDatabaseProperties) -> None:
+        """
+        Display a shop's information as a Rich tree.
+
+        Args:
+            shop: Shop properties to display
+        """
+        # Build tree structure
+        tree = Tree(
+            f"[bold yellow]{shop.shop_name.plain_text}[/] "
+            f"([yellow]{shop.owner_ign.plain_text}[/])"
         )
 
-    def query_notion_database(self):
-        return self.notion_manager.query_notion_database()
+        # Location branch
+        location = tree.add("[cyan]Location[/]")
+        location.add(f"[cyan]Coords:[/] [green]{shop.coords.plain_text}[/]")
+        location.add(f"[cyan]Spawn:[/] [green]{shop.spawn.name}[/]")
 
-    def process_data(self, _minecraft_data: dict, inventory: list):
-        self.processing_manager.add_inventory(inventory=inventory)
-        self.processing_manager.add_minecraft_data(minecraft_data=_minecraft_data)
-        return self.processing_manager.process_data()
+        # Found items
+        if shop.inventory.found:
+            found_branch = tree.add(
+                f"[cyan]Found Items ({len(shop.inventory.found)})[/]"
+            )
+            for item in sorted(shop.inventory.found):
+                display_name = self.normalize_display_name(item)
+                found_branch.add(f"[green]{display_name}[/]")
 
-    def normalize_display_name(self, item_id: str) -> str:
-        """Convert a Minecraft item ID to a readable display name."""
-        # Split by underscores and capitalize each word
+        # Missing items
+        if shop.inventory.missing:
+            missing_branch = tree.add(
+                f"[cyan]Missing Items ({len(shop.inventory.missing)})[/]"
+            )
+            for item in sorted(shop.inventory.missing):
+                display_name = self.normalize_display_name(item)
+                missing_branch.add(f"[red]{display_name}[/]")
+
+        self.console.print(tree)
+
+    @staticmethod
+    def normalize_display_name(item_id: str) -> str:
+        """
+        Convert a Minecraft item ID to a readable display name.
+
+        Args:
+            item_id: Minecraft item ID (e.g., "diamond_sword")
+
+        Returns:
+            Human-readable name (e.g., "Diamond Sword")
+        """
         return " ".join(word.capitalize() for word in item_id.split("_"))
+
+    def save_to_csv(self, shop: ShopDatabaseProperties) -> None:
+        """
+        Append a shop's data to the output CSV file.
+
+        Args:
+            shop: Shop properties to save
+        """
+        try:
+            with open(
+                self.config.output_file, mode="a", encoding="utf-8", newline=""
+            ) as csvfile:
+                writer = csv.writer(
+                    csvfile, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL
+                )
+                writer.writerow(shop.to_csv_row())
+        except IOError as e:
+            self.console.print(f"[red]Failed to write CSV: {e}[/red]")
+            raise
 
     @contextmanager
     def ssh_connection(self) -> Generator[SSHClient, None, None]:
-        """
-        Context manager for handling SSH connections.
-
-        Yields:
-            SSHClient: Connected SSH client that will be automatically closed after use.
-
-        Raises:
-            ConnectionError: If connection to the server fails.
-        """
+        """Context manager for SSH connections."""
         client = None
         try:
             client = self.server_manager.connect_to_server()
@@ -75,112 +191,79 @@ class Main:
                 client.close()
 
     def upload_to_server(self) -> None:
-        """
-        Upload the processed shop data to the server.
-
-        This function:
-        1. Verifies the output file exists
-        2. Establishes SSH connection
-        3. Uploads the file to the server
-        4. Removes the local file after successful upload
-
-        Raises:
-            FileNotFoundError: If output file doesn't exist
-            ConnectionError: If server connection fails
-            Exception: For other upload-related errors
-        """
-        if not os.path.exists(OUTPUT_FILE):
-            raise FileNotFoundError(f"{OUTPUT_FILE} was not found.")
+        """Upload the processed CSV to the server."""
+        if not os.path.exists(self.config.output_file):
+            raise FileNotFoundError(f"{self.config.output_file} not found")
 
         try:
             with self.ssh_connection() as ssh_client:
-                self.server_manager.execute_command("cd /var/www/files", ssh_client)
+                remote_path = f"/var/www/files/{self.config.output_file}"
                 self.server_manager.upload_file_to_server(
-                    OUTPUT_FILE, f"/var/www/files/{OUTPUT_FILE}", ssh_client
+                    self.config.output_file, remote_path, ssh_client
                 )
-            os.remove(OUTPUT_FILE)
-        except ConnectionError as e:
-            console.log(f"Failed to connect to server: {e}")
-            raise
+            os.remove(self.config.output_file)
+            self.console.print("[green]Successfully uploaded to server[/green]")
         except Exception as e:
-            console.log(f"Error during file upload: {e}")
+            self.console.print(f"[red]Upload failed: {e}[/red]")
             raise
 
-    def save_to_csv(self, filename: str, data: List[str]) -> None:
-        """Save data to a CSV file.
-
-        Args:
-            filename: Path to the CSV file
-            data: List of strings to be written as a row
+    def run(self) -> None:
         """
-        try:
-            with open(
-                file=filename, mode="a", encoding="utf8", newline=""
-            ) as csvfile_writer:
-                writer = csv.writer(
-                    csvfile_writer,
-                    delimiter=",",
-                    quotechar='"',
-                    quoting=csv.QUOTE_MINIMAL,
-                )
-                writer.writerow(data)
-        except IOError as e:
-            console.print(f"Failed to write to CSV file {filename}: {e}")
-            raise
+        Main execution loop.
+
+        Fetches data from Notion, processes each shop, and exports results.
+        """
+        # Remove existing output file
+        if os.path.exists(self.config.output_file):
+            os.remove(self.config.output_file)
+
+        # Fetch and process shops
+        notion_rows = self.fetch_notion_data()
+        processed_count = 0
+
+        for row in notion_rows:
+            try:
+                # Parse shop properties
+                shop = ShopDatabaseProperties.from_notion_row(row)
+
+                # Get and process inventory
+                raw_inventory = shop.get_raw_inventory(row)
+                if not raw_inventory:
+                    self.console.print(
+                        f"[yellow]No inventory for {shop.shop_name.plain_text}[/yellow]"
+                    )
+                    continue
+
+                shop.inventory = self.process_shop_inventory(raw_inventory)
+
+                # Display results
+                self.display_shop_tree(shop)
+
+                # Export if enough items found
+                if len(shop.inventory.found) >= self.config.min_items_for_export:
+                    self.save_to_csv(shop)
+                    processed_count += 1
+
+            except Exception as e:
+                self.console.print(f"[red]Error processing shop: {e}[/red]")
+                self.console.print(traceback.format_exc())
+
+        # Upload results
+        if processed_count > 0:
+            self.console.print(f"\n[bold]Processed {processed_count} shops[/bold]")
+            self.upload_to_server()
+        else:
+            self.console.print("[yellow]No shops to upload[/yellow]")
+
+        # Save log
+        self.console.save_text("server_manager.log", clear=False)
+
+
+def main():
+    """Entry point for the application."""
+    processor = ShopProcessor()
+    processor.run()
 
 
 if __name__ == "__main__":
-    from constants import console
-
-    main = Main()
-    minecraft_data = main.load_data()
-    notion_database = main.query_notion_database()["results"]
-    for row in notion_database:
-        shop_database_properties = ShopDatabaseProperties(
-            owner_ign=ShopOwnerModel(**row["properties"]["Owner IGN"]),
-            coords=ShopCoordsModel(**row["properties"]["Coords (X, Z)"]),
-            spawn=ShopSpawnModel(**row["properties"]["Spawn"]),
-            shop_name=ShopNameModel(**row["properties"]["Shop Name"]),
-        )
-
-        try:
-            processed_inventory = main.process_data(
-                _minecraft_data=minecraft_data,
-                inventory=row["properties"]["Inventory"]["rich_text"][0][
-                    "plain_text"
-                ].split(","),
-            )
-        except Exception:
-            print(traceback.format_exc())
-
-        shop_database_properties.inventory = ShopInventoryModel(processed_inventory)
-
-        shop_tree = Tree(
-            f"[bold yellow]{shop_database_properties.shop_name.plain_text}[/] ([yellow]{shop_database_properties.owner_ign.plain_text}[/])"
-        )
-        location_branch = shop_tree.add(f"[cyan]Location[/]")
-        location_branch.add(
-            f"[cyan]Coords[/] [green]{shop_database_properties.coords.plain_text}[/]"
-        )
-        location_branch.add(
-            f"[cyan]Spawn[/] [green]{shop_database_properties.spawn.name}[/]"
-        )
-
-        items_branch = shop_tree.add(f"[cyan]Found Items[/]")
-        for item in sorted(shop_database_properties.inventory.inventory[1]):
-            items_branch.add(f"[green]{main.normalize_display_name(item)}[/]")
-        items_branch = shop_tree.add(f"[cyan]Missing Items[/]")
-        for item in sorted(shop_database_properties.inventory.inventory[0]):
-            items_branch.add(f"[red]{main.normalize_display_name(item)}[/]")
-
-        console.print(shop_tree)
-        console.save_text("server_manager.log", clear=False)
-
-        if len(shop_database_properties.inventory.inventory[1]) >= 1:
-            main.save_to_csv(
-                filename=OUTPUT_FILE, data=shop_database_properties.__list__()
-            )
-        else:
-            continue
-
-    main.upload_to_server()
+    main()
